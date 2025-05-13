@@ -2,11 +2,11 @@
 
 📍 **GitHub:** [LiveFlight Repository](https://github.com/IvanAAguiar/LiveFlight.git)
 
-LiveFlight é um projeto que fornece informações sobre voos, companhias aéreas e aeroportos. Este README descreve como utilizar a API, a estrutura da aplicação, a estratégia de testes, premissas e limitações, além de sugestões para melhorias futuras.
+LiveFlight is a project that provides information about flights, airlines, and airports. This README describes how to use the API, the application's structure, the testing strategy, assumptions and limitations, and suggestions for future improvements.
 
 ---
 
-## 📚 Tabela de Conteúdo
+## 📚 Table of Contents
 
 - [API Usage](#api-usage)
 - [Application Structure](#application-structure)
@@ -18,23 +18,23 @@ LiveFlight é um projeto que fornece informações sobre voos, companhias aérea
 
 ## 🔌 API Usage
 
-A API do LiveFlight fornece acesso a dados de voos, companhias aéreas e aeroportos.
+The LiveFlight API provides access to flight, airline, and airport data.
 
 ### 🔹 Endpoints
 
 #### `GET /flights`
-Retorna uma lista de voos.
+Returns a list of flights.
 
-**Parâmetros (opcionais):**
-- `date`: filtra por data (formato `YYYY-MM-DD`)
-- `airline`: filtra por companhia aérea
+**Optional parameters:**
+- `date`: filters by date (`YYYY-MM-DD` format)
+- `airline`: filters by airline
 
-**Exemplo de requisição:**
+**Request example:**
 ```
 GET /flights?date=2024-07-28&airline=GOL
 ```
 
-**Resposta:**
+**Response:**
 ```json
 [
   {
@@ -59,14 +59,14 @@ GET /flights?date=2024-07-28&airline=GOL
 ```
 
 #### `GET /airlines`
-Retorna a lista de companhias aéreas.
+Returns a list of airlines.
 
-**Exemplo de requisição:**
+**Request example:**
 ```
 GET /airlines
 ```
 
-**Resposta:**
+**Response:**
 ```json
 [
   {
@@ -81,14 +81,14 @@ GET /airlines
 ```
 
 #### `GET /airports`
-Retorna a lista de aeroportos.
+Returns a list of airports.
 
-**Exemplo de requisição:**
+**Request example:**
 ```
 GET /airports
 ```
 
-**Resposta:**
+**Response:**
 ```json
 [
   {
@@ -106,30 +106,30 @@ GET /airports
 ]
 ```
 
-### 🔐 Autenticação
-A API **não requer autenticação**.
+### 🔐 Authentication
+The API **does not require authentication**.
 
-### 📘 Códigos de Status
-- `200 OK`: Requisição bem-sucedida
-- `400 Bad Request`: Erro nos parâmetros
-- `500 Internal Server Error`: Erro interno no servidor
+### 📘 Status Codes
+- `200 OK`: Request succeeded
+- `400 Bad Request`: Invalid parameters
+- `500 Internal Server Error`: Server error
 
 ---
 
 ## 🏗 Application Structure
 
-O LiveFlight segue a arquitetura **MVVM (Model-View-ViewModel)**.
+LiveFlight follows the **MVVM (Model-View-ViewModel)** architecture.
 
-### 🔹 Camadas
+### 🔹 Layers
 
-- **Models:** Representam os dados (e.g. `Flight`, `Airline`, `Airport`)
-- **Views:** Apresentam os dados (e.g. `FlightListView`, `FlightDetailView`)
-- **ViewModels:** Contêm a lógica de apresentação e interação
-- **Services:** `ApiService.swift` faz chamadas à API
-- **Repository:** `ApiClient.swift` atua como repositório (interface unificada)
-- **CoreData:** `Persistence.swift` configura persistência local
+- **Models:** Represent the data (e.g., `Flight`, `Airline`, `Airport`)
+- **Views:** Display data (e.g., `FlightListView`, `FlightDetailView`)
+- **ViewModels:** Contain presentation logic and interaction
+- **Services:** `ApiService.swift` handles API calls
+- **Repository:** `ApiClient.swift` acts as the repository (unified interface)
+- **CoreData:** `Persistence.swift` manages local persistence
 
-### 📁 Estrutura de Diretórios
+### 📁 Directory Structure
 ```
 LiveFlight/
 ├── Controllers/
@@ -151,58 +151,58 @@ LiveFlight/
 │   └── Persistence.swift
 ├── Repository/
 │   └── ApiClient.swift
-└── ...outros arquivos...
+└── ...other files...
 ```
 
 ---
 
 ## 🧪 Testing Strategy
 
-LiveFlight utiliza **testes unitários** para garantir a qualidade do código.
+LiveFlight uses **unit tests** to ensure code quality.
 
-### Componentes testados:
+### Tested components:
 
-- **Models:** Validação dos dados
-- **ViewModels:** Lógica de apresentação
-- **Services:** Integração com a API
-- **CoreData:** Validação da persistência de dados
+- **Models:** Data validation
+- **ViewModels:** Presentation logic
+- **Services:** API integration
+- **CoreData:** Data persistence
 
-> Para rodar os testes:  
-> 📱 **Command + U** no Xcode
+> To run the tests:  
+> 📱 **Command + U** in Xcode
 
 ---
 
 ## ⚠ Assumptions and Limitations
 
-- A aplicação assume que a API está funcionando corretamente.
-- O uso do CoreData não implementa sincronização completa (dados locais podem desatualizar).
-- A interface é básica e pode não estar otimizada para todos os tamanhos de tela.
-- O tratamento de erros é simples.
-- A API não possui suporte a paginação.
+- The app assumes the API is functioning and returning valid data.
+- CoreData is used to cache data, but does not implement full synchronization.
+- The UI is basic and may not be fully responsive on all devices.
+- Error handling is limited.
+- The API does not support pagination.
 
 ---
 
 ## 🚀 Suggestions for Future Improvements
 
-### 🐞 Correções de bugs
-- Corrigir bug ao filtrar companhias aéreas
-- Corrigir warning de background
+### 🐞 Bug Fixes
+- Fix bug when filtering airlines
+- Resolve background warning
 
-### 🔧 Refatorações
-- Refatorar relacionamentos dos repositórios
-- Reestruturar `FlightModel` e `FlightEntity` para reutilizar componente de chegada/partida
+### 🔧 Refactoring
+- Refactor repository relationships
+- Restructure `FlightModel` and `FlightEntity` to reuse arrival/departure components
 
-### 🎨 Melhorias na UX
-- Mostrar snackbar ao salvar objetos
-- Adaptar idioma conforme preferência do usuário
-- Criar componente reutilizável para filtros
+### 🎨 UX Enhancements
+- Show snackbar when objects are saved
+- Add support for language preferences
+- Create reusable component for filters
 
-### 📊 Gerenciamento de Dados
-- Verificar se há novos dados na API para atualizar CoreData
+### 📊 Data Management
+- Add mechanism to check for updated data from the API
 
-### 🧩 Gerenciamento de Dependências
-- Criar fábricas para organizar dependências
+### 🧩 Dependency Management
+- Create factories for better dependency handling
 
-### ✅ Testes
-- Corrigir teste em `FlightsRepository` (provável erro no método `createAirlineModel()`)
-- Melhorar testes em `FlightServiceTests`
+### ✅ Testing
+- Fix test in `FlightsRepository` (`createAirlineModel()` might be the issue)
+- Improve `FlightServiceTests`
