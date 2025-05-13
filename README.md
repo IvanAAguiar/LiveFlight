@@ -1,271 +1,208 @@
-#LiveFlight
+# LiveFlight
 
-Project GitHub Link: https://github.com/IvanAAguiar/LiveFlight.git
+📍 **GitHub:** [LiveFlight Repository](https://github.com/IvanAAguiar/LiveFlight.git)
 
-Overview
+LiveFlight é um projeto que fornece informações sobre voos, companhias aéreas e aeroportos. Este README descreve como utilizar a API, a estrutura da aplicação, a estratégia de testes, premissas e limitações, além de sugestões para melhorias futuras.
 
-LiveFlight is a project that provides information about flights, airlines, and airports. This README describes how to use the API, the application structure, the testing strategy, assumptions and limitations, and suggestions for future improvements.
+---
 
-Table of Contents
+## 📚 Tabela de Conteúdo
 
-API Usage
+- [API Usage](#api-usage)
+- [Application Structure](#application-structure)
+- [Testing Strategy](#testing-strategy)
+- [Assumptions and Limitations](#assumptions-and-limitations)
+- [Suggestions for Future Improvements](#suggestions-for-future-improvements)
 
-Application Structure Explanation
+---
 
-Testing StrategyAssumptions or Limitations
+## 🔌 API Usage
 
-Suggestions for Future Improvements
+A API do LiveFlight fornece acesso a dados de voos, companhias aéreas e aeroportos.
 
-API Usage
+### 🔹 Endpoints
 
-The LiveFlight API provides access to flight, airline, and airport data.
+#### `GET /flights`
+Retorna uma lista de voos.
 
-Endpoints
+**Parâmetros (opcionais):**
+- `date`: filtra por data (formato `YYYY-MM-DD`)
+- `airline`: filtra por companhia aérea
 
-GET /flights: Returns a list of flights.
-
-Parameters:
-
-date (optional): Filters flights by date (YYYY-MM-DD format).
-
-airline (optional): Filters flights by airline.
-
-Request Example:
-
+**Exemplo de requisição:**
+```
 GET /flights?date=2024-07-28&airline=GOL
+```
 
-Response Example:\[
+**Resposta:**
+```json
+[
+  {
+    "id": 1,
+    "flightNumber": "G31234",
+    "airline": "GOL",
+    "departureAirport": "GRU",
+    "arrivalAirport": "CGH",
+    "scheduledDeparture": "2024-07-28T10:00:00",
+    "scheduledArrival": "2024-07-28T11:00:00"
+  },
+  {
+    "id": 2,
+    "flightNumber": "LA4567",
+    "airline": "LATAM",
+    "departureAirport": "CGH",
+    "arrivalAirport": "SDU",
+    "scheduledDeparture": "2024-07-28T12:00:00",
+    "scheduledArrival": "2024-07-28T13:00:00"
+  }
+]
+```
 
-{
+#### `GET /airlines`
+Retorna a lista de companhias aéreas.
 
-"id": 1,
-
-"flightNumber": "G31234",
-
-"airline": "GOL",
-
-"departureAirport": "GRU",
-
-"arrivalAirport": "CGH",
-
-"scheduledDeparture": "2024-07-28T10:00:00",
-
-"scheduledArrival": "2024-07-28T11:00:00"
-
-},
-
-{
-
-"id": 2,
-
-"flightNumber": "LA4567",
-
-"airline": "LATAM",
-
-"departureAirport": "CGH",
-
-"arrivalAirport": "SDU",
-
-"scheduledDeparture": "2024-07-28T12:00:00",
-
-"scheduledArrival": "2024-07-28T13:00:00"
-
-}
-
-\]
-
-GET /airlines: Returns a list of airlines.Request Example:
-
+**Exemplo de requisição:**
+```
 GET /airlines
+```
 
-Response Example:\[
+**Resposta:**
+```json
+[
+  {
+    "code": "GOL",
+    "name": "Gol Linhas Aéreas"
+  },
+  {
+    "code": "LATAM",
+    "name": "LATAM Airlines"
+  }
+]
+```
 
-{
+#### `GET /airports`
+Retorna a lista de aeroportos.
 
-"code": "GOL",
-
-"name": "Gol Linhas Aéreas"
-
-},
-
-{
-
-"code": "LATAM",
-
-"name": "LATAM Airlines"
-
-}
-
-\]
-
-Description:
-
-This endpoint returns a list of all airlines available in the database. Each airline is represented by a code and a name.
-
-GET /airports: Returns a list of airports.
-
-Request Example:
-
+**Exemplo de requisição:**
+```
 GET /airports
+```
 
-Response Example:\[
+**Resposta:**
+```json
+[
+  {
+    "code": "GRU",
+    "name": "Aeroporto Internacional de Guarulhos"
+  },
+  {
+    "code": "CGH",
+    "name": "Aeroporto de Congonhas"
+  },
+  {
+    "code": "SDU",
+    "name": "Aeroporto Santos Dumont"
+  }
+]
+```
 
-{
+### 🔐 Autenticação
+A API **não requer autenticação**.
 
-"code": "GRU",
+### 📘 Códigos de Status
+- `200 OK`: Requisição bem-sucedida
+- `400 Bad Request`: Erro nos parâmetros
+- `500 Internal Server Error`: Erro interno no servidor
 
-"name": "Aeroporto Internacional de Guarulhos"
+---
 
-},
+## 🏗 Application Structure
 
-{
+O LiveFlight segue a arquitetura **MVVM (Model-View-ViewModel)**.
 
-"code": "CGH",
+### 🔹 Camadas
 
-"name": "Aeroporto de Congonhas"
+- **Models:** Representam os dados (e.g. `Flight`, `Airline`, `Airport`)
+- **Views:** Apresentam os dados (e.g. `FlightListView`, `FlightDetailView`)
+- **ViewModels:** Contêm a lógica de apresentação e interação
+- **Services:** `ApiService.swift` faz chamadas à API
+- **Repository:** `ApiClient.swift` atua como repositório (interface unificada)
+- **CoreData:** `Persistence.swift` configura persistência local
 
-},
-
-{
-
-"code": "SDU",
-
-"name": "Aeroporto Santos Dumont"
-
-}
-
-\]
-
-Authentication
-
-The API does not require authentication.
-
-Status Codes
-
-200 OK: The request was successful.
-
-400 Bad Request: The request is incorrect (e.g., invalid parameters).
-
-500 Internal Server Error: An error occurred on the server.
-
-Application Structure Explanation
-
-LiveFlight follows the MVVM (Model-View-ViewModel) architecture.
-
-Models: Represent the application's data (e.g., Flight, Airline, Airport).
-
-Views: Display the data to the user (e.g., flight listing screens, flight details). Views are passive and depend on the ViewModel to update their content.
-
-ViewModels: Manage the presentation logic and prepare the data for display in the Views. They act as intermediaries between the Models and the Views.
-
-Services: The ApiService is responsible for making the calls to the external API to fetch flight, airline, and airport data. It encapsulates the logic of communicating with the API, such as constructing URLs, sending requests, and handling responses.
-
-Repository (Pattern): The Repository pattern is used to abstract the data access layer. The ApiClient acts as a repository, providing a unified interface to access the data, whether from the API (via ApiService) or CoreData. This allows the rest of the application (ViewModels) to interact with the data consistently, without needing to worry about the data source.
-
-CoreData: Persistence.swift configures CoreData to store the data locally. The application uses CoreData to persist the data fetched from the API, which allows the application to function more efficiently, avoiding multiple calls to the API for the same data.
-
-The project's directory structure is as follows:
-
+### 📁 Estrutura de Diretórios
+```
 LiveFlight/
-
-├── Controllers/ # Contains the ViewModels
-
-│ ├── FlightViewModel.swift
-
-│ ├── AirlineViewModel.swift
-
-│ └── AirportViewModel.swift
-
+├── Controllers/
+│   ├── FlightViewModel.swift
+│   ├── AirlineViewModel.swift
+│   └── AirportViewModel.swift
 ├── Models/
-
-│ ├── Flight.swift
-
-│ ├── Airline.swift
-
-│ └── Airport.swift
-
+│   ├── Flight.swift
+│   ├── Airline.swift
+│   └── Airport.swift
 ├── Views/
-
-│ ├── FlightListView.swift
-
-│ ├── FlightDetailView.swift
-
-│ ├── AirlineListView.swift
-
-│ └── AirportListView.swift
-
+│   ├── FlightListView.swift
+│   ├── FlightDetailView.swift
+│   ├── AirlineListView.swift
+│   └── AirportListView.swift
 ├── Services/
-
-│ └── ApiService.swift # Responsible for making API calls
-
+│   └── ApiService.swift
 ├── CoreData/
-
-│ └── Persistence.swift # CoreData configuration
-
+│   └── Persistence.swift
 ├── Repository/
+│   └── ApiClient.swift
+└── ...outros arquivos...
+```
 
-│ └── ApiClient.swift # Repository that abstracts data access
+---
 
-└── ...other files...
+## 🧪 Testing Strategy
 
-Testing Strategy
+LiveFlight utiliza **testes unitários** para garantir a qualidade do código.
 
-LiveFlight uses unit tests to ensure code quality. The main components tested are:
+### Componentes testados:
 
-Models: Data integrity validation.
+- **Models:** Validação dos dados
+- **ViewModels:** Lógica de apresentação
+- **Services:** Integração com a API
+- **CoreData:** Validação da persistência de dados
 
-ViewModels: Presentation logic and interaction with Models and Views.
+> Para rodar os testes:  
+> 📱 **Command + U** no Xcode
 
-Services: API integration tests, verifying that the calls return the expected data.
+---
 
-CoreData: Persistence tests, ensuring that data is saved and retrieved correctly.
+## ⚠ Assumptions and Limitations
 
-To run the tests, use the appropriate command from your development environment (e.g., Command + U in Xcode).
+- A aplicação assume que a API está funcionando corretamente.
+- O uso do CoreData não implementa sincronização completa (dados locais podem desatualizar).
+- A interface é básica e pode não estar otimizada para todos os tamanhos de tela.
+- O tratamento de erros é simples.
+- A API não possui suporte a paginação.
 
-Assumptions or Limitations
+---
 
-The application assumes that the API is working correctly and returning valid data.
+## 🚀 Suggestions for Future Improvements
 
-The application uses CoreData to cache data, but does not implement full synchronization. Local data may become outdated if the API is updated.
+### 🐞 Correções de bugs
+- Corrigir bug ao filtrar companhias aéreas
+- Corrigir warning de background
 
-The user interface is basic and may not be fully optimized for all screen sizes.
+### 🔧 Refatorações
+- Refatorar relacionamentos dos repositórios
+- Reestruturar `FlightModel` e `FlightEntity` para reutilizar componente de chegada/partida
 
-Error handling is basic.
+### 🎨 Melhorias na UX
+- Mostrar snackbar ao salvar objetos
+- Adaptar idioma conforme preferência do usuário
+- Criar componente reutilizável para filtros
 
-There is no support for pagination in the API.
+### 📊 Gerenciamento de Dados
+- Verificar se há novos dados na API para atualizar CoreData
 
-Suggestions for Future Improvements
+### 🧩 Gerenciamento de Dependências
+- Criar fábricas para organizar dependências
 
-Bug Fixes:
-
-Bug when filtering airlines.
-
-Resolve background warning.
-
-Refactoring:
-
-Refactor the relationships of the repositories.
-
-Restructure the FlightModel and FlightEntity to reuse the same component for Arrival and Departure.
-
-UX Improvements:
-
-Show a snackbar when objects are saved or not.
-
-Find a way to update the language according to user preferences.
-
-Create a reusable component for filtering the views.
-
-Data Management:
-
-Consider a way to check if there is new information to update what we have saved in CoreData.
-
-Dependency Management
-
-Create factories to better manage dependencies.
-
-Testing:
-
-Fix test in FlightsRepository, the problem is probably in the createAirlineModel() method in FlightsRepository.
-
-Improve FlightServiceTests tests.
+### ✅ Testes
+- Corrigir teste em `FlightsRepository` (provável erro no método `createAirlineModel()`)
+- Melhorar testes em `FlightServiceTests`
