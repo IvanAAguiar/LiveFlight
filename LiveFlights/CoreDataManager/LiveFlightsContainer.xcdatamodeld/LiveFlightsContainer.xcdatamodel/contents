@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AirlineEntity" representedClassName="AirlineEntity" syncable="YES">
+        <attribute name="airlineId" optional="YES" attributeType="String"/>
+        <attribute name="airlineName" optional="YES" attributeType="String"/>
+        <attribute name="countryName" optional="YES" attributeType="String"/>
+        <attribute name="iataCode" optional="YES" attributeType="String"/>
+        <attribute name="iataIcao" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ArrivalEntity" representedClassName="ArrivalEntity" syncable="YES">
+        <attribute name="airport" optional="YES" attributeType="String"/>
+        <attribute name="iata" optional="YES" attributeType="String"/>
+        <attribute name="icao" optional="YES" attributeType="String"/>
+        <attribute name="scheduled" optional="YES" attributeType="String"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CodesharedEntity" representedClassName="CodesharedEntity" syncable="YES">
+        <attribute name="airlineIata" optional="YES" attributeType="String"/>
+        <attribute name="airlineIcao" optional="YES" attributeType="String"/>
+        <attribute name="airlineName" optional="YES" attributeType="String"/>
+        <attribute name="flightIata" optional="YES" attributeType="String"/>
+        <attribute name="flightIcao" optional="YES" attributeType="String"/>
+        <attribute name="flightNumber" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DepartureEntity" representedClassName="DepartureEntity" syncable="YES">
+        <attribute name="actual" optional="YES" attributeType="String"/>
+        <attribute name="actualRunway" optional="YES" attributeType="String"/>
+        <attribute name="airport" optional="YES" attributeType="String"/>
+        <attribute name="delay" optional="YES" attributeType="String"/>
+        <attribute name="estimated" optional="YES" attributeType="String"/>
+        <attribute name="estimatedRunway" optional="YES" attributeType="String"/>
+        <attribute name="gate" optional="YES" attributeType="String"/>
+        <attribute name="iata" optional="YES" attributeType="String"/>
+        <attribute name="icao" optional="YES" attributeType="String"/>
+        <attribute name="scheduled" optional="YES" attributeType="String"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="FavoritesAirlineEntity" representedClassName="FavoritesAirlineEntity" syncable="YES">
+        <relationship name="airline" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AirlineEntity"/>
+    </entity>
+    <entity name="FlightDetailsEntity" representedClassName="FlightDetailsEntity" syncable="YES">
+        <attribute name="iata" optional="YES" attributeType="String"/>
+        <attribute name="icao" optional="YES" attributeType="String"/>
+        <attribute name="number" optional="YES" attributeType="String"/>
+        <relationship name="codeshared" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CodesharedEntity"/>
+    </entity>
+    <entity name="FlightEntity" representedClassName="FlightEntity" syncable="YES">
+        <attribute name="flightDate" optional="YES" attributeType="String"/>
+        <attribute name="flightStatus" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="airline" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AirlineEntity"/>
+        <relationship name="arrival" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ArrivalEntity"/>
+        <relationship name="departure" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DepartureEntity"/>
+        <relationship name="flight" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FlightDetailsEntity"/>
+    </entity>
+</model>
