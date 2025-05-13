@@ -19,7 +19,7 @@ final class AviationStackAPIClient {
     
     private enum Constants {
         static let baseURL = "https://api.aviationstack.com"
-        static let apiKey = "0f12140c571c85a75fd707096da6da62" /// Add your API Access Key
+        static let apiKey = "XXXXXX" /// Add your API Access Key
     }
     
     // MARK: - Properties
